@@ -79,7 +79,12 @@ curl -X POST http://localhost:3000/ardis/generate-xml \
 
 ## Sample Request
 
-See [examples/generate-xml-request.json](examples/generate-xml-request.json).
+See:
+
+- [examples/generate-xml-request.json](examples/generate-xml-request.json)
+- [examples/generate-xml-request-edge-all-sides.json](examples/generate-xml-request-edge-all-sides.json)
+- [examples/generate-xml-request-two-parts.json](examples/generate-xml-request-two-parts.json)
+- [examples/generate-xml-request-no-edges.json](examples/generate-xml-request-no-edges.json)
 
 ## Expected Response
 
@@ -112,4 +117,3 @@ See [examples/generate-xml-request.json](examples/generate-xml-request.json).
 - Materials and edges are loaded from local JSON mapping files
 - Machine settings are static for the Selco target
 - `ReportCollection` is intentionally excluded
-

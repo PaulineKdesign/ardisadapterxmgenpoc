@@ -1,0 +1,24 @@
+{
+  "projectNumber": "AT-POC-004",
+  "customerAccount": "C004422",
+  "customerName": "Alice Njeri",
+  "customerEmail": "alice@email.com",
+  "deliveryDate": "2026-05-14",
+  "orderDate": "2026-05-11",
+  "deliveryMethod": "Deliver Parts",
+  "projectReference": "plain board sample",
+  "parts": [
+    {
+      "partReference": "P301",
+      "materialCode": "Z1000798",
+      "lengthMm": 1200,
+      "widthMm": 500,
+      "quantity": 3,
+      "edge1": "",
+      "edge2": "",
+      "edge3": "",
+      "edge4": "",
+      "machiningRaw": ""
+    }
+  ]
+}

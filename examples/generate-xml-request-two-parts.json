@@ -1,0 +1,36 @@
+{
+  "projectNumber": "AT-POC-003",
+  "customerAccount": "C004421",
+  "customerName": "James Kariuki",
+  "customerEmail": "james@email.com",
+  "deliveryDate": "2026-05-12",
+  "orderDate": "2026-05-10",
+  "deliveryMethod": "Deliver Parts",
+  "projectReference": "two part sample",
+  "parts": [
+    {
+      "partReference": "P201",
+      "materialCode": "Z1000798",
+      "lengthMm": 800,
+      "widthMm": 300,
+      "quantity": 2,
+      "edge1": "",
+      "edge2": "Z1002150",
+      "edge3": "",
+      "edge4": "",
+      "machiningRaw": "|;|;|"
+    },
+    {
+      "partReference": "P202",
+      "materialCode": "Z1000798",
+      "lengthMm": 560,
+      "widthMm": 560,
+      "quantity": 4,
+      "edge1": "Z1002150",
+      "edge2": "",
+      "edge3": "Z1002150",
+      "edge4": "",
+      "machiningRaw": "|route|bore|"
+    }
+  ]
+}

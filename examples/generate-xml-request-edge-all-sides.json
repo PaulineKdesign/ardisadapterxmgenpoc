@@ -1,0 +1,24 @@
+{
+  "projectNumber": "AT-POC-002",
+  "customerAccount": "C004420",
+  "customerName": "Mary Wanjiru",
+  "customerEmail": "mary@email.com",
+  "deliveryDate": "2026-05-10",
+  "orderDate": "2026-05-09",
+  "deliveryMethod": "Customer Pickup",
+  "projectReference": "full edging sample",
+  "parts": [
+    {
+      "partReference": "P100",
+      "materialCode": "Z1000798",
+      "lengthMm": 720,
+      "widthMm": 450,
+      "quantity": 1,
+      "edge1": "Z1002150",
+      "edge2": "Z1002150",
+      "edge3": "Z1002150",
+      "edge4": "Z1002150",
+      "machiningRaw": "|drill|groove|"
+    }
+  ]
+}
