@@ -93,14 +93,19 @@ See:
   "success": true,
   "projectNumber": "AT-POC-001",
   "fileName": "Project_AT-POC-001.xml",
-  "generatedPath": "storage/generated/Project_AT-POC-001.xml"
+  "generatedPath": "generated/Project_AT-POC-001.xml",
+  "blobUrl": "https://<your-blob-url>/generated/Project_AT-POC-001.xml",
+  "downloadUrl": "https://<your-blob-url>/generated/Project_AT-POC-001.xml?download=1",
+  "logPath": "logs/AT-POC-001.json",
+  "logBlobUrl": "https://<your-blob-url>/logs/AT-POC-001.json"
 }
 ```
 
 ## Generated Files
 
-- XML output: `storage/generated/Project_<projectNumber>.xml`
-- Log output: `storage/logs/<projectNumber>.json`
+- Blob XML output: `generated/Project_<projectNumber>.xml`
+- Blob log output: `logs/<projectNumber>.json`
+- Local filesystem fallback is used only when `BLOB_READ_WRITE_TOKEN` is not configured
 
 ## Validation Rules
 

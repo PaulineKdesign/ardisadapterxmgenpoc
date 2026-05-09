@@ -43,4 +43,8 @@ export interface GeneratedXmlResponse {
   projectNumber: string;
   fileName: string;
   generatedPath: string;
+  blobUrl?: string;
+  downloadUrl?: string;
+  logPath?: string;
+  logBlobUrl?: string;
 }

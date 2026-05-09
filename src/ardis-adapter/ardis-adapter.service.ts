@@ -45,20 +45,25 @@ export class ArdisAdapterService {
     );
 
     const fileName = `Project_${payload.projectNumber}.xml`;
-    await this.fileStorageService.saveGeneratedXml(fileName, xml);
+    const generatedFile = await this.fileStorageService.saveGeneratedXml(fileName, xml);
 
     const response: GeneratedXmlResponse = {
       success: true,
       projectNumber: payload.projectNumber,
       fileName,
-      generatedPath: `storage/generated/${fileName}`,
+      generatedPath: generatedFile.pathname,
+      blobUrl: generatedFile.url,
+      downloadUrl: generatedFile.downloadUrl,
     };
 
-    await this.fileStorageService.saveLog(payload.projectNumber, {
+    const logFile = await this.fileStorageService.saveLog(payload.projectNumber, {
       createdAt: new Date().toISOString(),
       request: payload,
       response,
     });
+
+    response.logPath = logFile.pathname;
+    response.logBlobUrl = logFile.url;
 
     return response;
   }
