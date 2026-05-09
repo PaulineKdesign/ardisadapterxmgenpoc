@@ -1,0 +1,26 @@
+[
+  {
+    "materialCode": "Z1000798",
+    "ardisMaterialName": "18 PB Kara Blu",
+    "description": "Kara Blu 2750x1830x18mm PB",
+    "rawMaterialCode": "Z1000798",
+    "finishedGoodCode": "Z1002705",
+    "offcutCode": "Z1003452",
+    "thicknessMm": 18,
+    "sheetLengthMm": 2750,
+    "sheetWidthMm": 1840,
+    "sheetNoLimit": 1,
+    "sheetPrice": 4000,
+    "sheetQty": 290,
+    "sheetD": 0,
+    "sheetRemark": 0,
+    "sheetMach": "",
+    "trimMinUpper": "10.00",
+    "trimMinRight": "10.00",
+    "trimMinBottom": "10.00",
+    "trimMinLeft": "10.00",
+    "restMinLength": "630.00",
+    "restMinWidth": "130.00",
+    "oneLevelStrips": "0.00"
+  }
+]
