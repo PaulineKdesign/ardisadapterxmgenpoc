@@ -1,30 +1,22 @@
 import 'reflect-metadata';
-import serverlessExpress from '@codegenie/serverless-express';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { Express } from 'express';
 import { createExpressServer } from '../src/bootstrap';
 
-let cachedHandler:
-  | ((req: VercelRequest, res: VercelResponse) => Promise<void>)
-  | undefined;
+let cachedApp: Express | undefined;
 
-async function getHandler(): Promise<
-  (req: VercelRequest, res: VercelResponse) => Promise<void>
-> {
-  if (!cachedHandler) {
-    const app = await createExpressServer();
-    cachedHandler = serverlessExpress({ app }) as (
-      req: VercelRequest,
-      res: VercelResponse,
-    ) => Promise<void>;
+async function getApp(): Promise<Express> {
+  if (!cachedApp) {
+    cachedApp = await createExpressServer();
   }
 
-  return cachedHandler;
+  return cachedApp;
 }
 
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  const server = await getHandler();
-  await server(req, res);
+  const app = await getApp();
+  app(req, res);
 }
