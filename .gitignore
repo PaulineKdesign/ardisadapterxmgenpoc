@@ -4,3 +4,4 @@ node_modules/
 dist/
 storage/generated/*.xml
 storage/logs/*.json
+storage/logs/*.log

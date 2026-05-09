@@ -99,7 +99,7 @@ export class XmlGeneratorService {
     this.appendTextElement(partNode, 'PartD', '');
     this.appendTextElement(partNode, 'PartQty', part.quantity);
     this.appendTextElement(partNode, 'PartCost', 0.0);
-    this.appendTextElement(partNode, 'PartMat', '{{PART_MAT_FORMULA}}');
+    this.appendTextElement(partNode, 'PartMat', material.ardisMaterialName);
     this.appendTextElement(partNode, 'PartWMin', '');
     this.appendTextElement(partNode, 'PartEdge1', edgeNames[0]);
     this.appendTextElement(partNode, 'PartEdge2', edgeNames[1]);
@@ -121,7 +121,7 @@ export class XmlGeneratorService {
     this.appendTextElement(
       partNode,
       'PartExt10',
-      '=PartEdge1ID + PartEdge2ID + PartEdge3ID + PartEdge4ID',
+      this.buildEdgeSelectionSummary(edgeNames),
     );
     this.appendTextElement(partNode, 'PartExt11', material.ardisMaterialName);
     this.appendTextElement(partNode, 'PartExt12', 0.0);
@@ -269,6 +269,13 @@ export class XmlGeneratorService {
         .map((edgeCode) => edgeCode?.trim() ?? '')
         .filter((edgeCode) => edgeCode.length > 0),
     );
+  }
+
+  private buildEdgeSelectionSummary(edgeNames: string[]): string {
+    return edgeNames
+      .map((edgeName, index) => (edgeName ? `E${index + 1}:${edgeName}` : ''))
+      .filter((value) => value.length > 0)
+      .join(';');
   }
 
   private appendTextElement(parent: XMLBuilder, name: string, value: string | number): void {
