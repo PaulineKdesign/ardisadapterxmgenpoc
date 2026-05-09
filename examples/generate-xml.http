@@ -1,0 +1,27 @@
+POST http://localhost:3000/ardis/generate-xml
+Content-Type: application/json
+
+{
+  "projectNumber": "AT-POC-001",
+  "customerAccount": "C004419",
+  "customerName": "George Maina",
+  "customerEmail": "george@email.com",
+  "deliveryDate": "2026-05-07",
+  "orderDate": "2026-05-06",
+  "deliveryMethod": "Deliver Parts",
+  "projectReference": "test for edging",
+  "parts": [
+    {
+      "partReference": "P001",
+      "materialCode": "Z1000798",
+      "lengthMm": 600,
+      "widthMm": 400,
+      "quantity": 2,
+      "edge1": "",
+      "edge2": "Z1002150",
+      "edge3": "",
+      "edge4": "",
+      "machiningRaw": "|;|;|"
+    }
+  ]
+}
