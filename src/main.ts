@@ -1,3 +1,4 @@
+import '@nestjs/core';
 import { createHttpApp } from './bootstrap';
 
 async function bootstrap(): Promise<void> {
