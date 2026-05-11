@@ -22,13 +22,13 @@ export class XmlGeneratorService {
     // PartCollection: generated from each incoming cutlist part.
     const partCollection = doc.ele('PartCollection');
     const partFile = partCollection.ele('PartFile', {
-      ID: payload.projectNumber,
+      ID: this.buildPartFileId(payload),
       Version: '16.03.31',
     });
 
     const partList = partFile.ele('PartList');
-    for (const part of payload.parts) {
-      this.appendPart(partList, part, payload, materialMap, edgeMap);
+    for (const [index, part] of payload.parts.entries()) {
+      this.appendPart(partList, part, payload, materialMap, edgeMap, index + 1);
     }
 
     this.appendPartFileProperties(partFile, payload);
@@ -80,6 +80,7 @@ export class XmlGeneratorService {
     payload: GenerateXmlDto,
     materialMap: Map<string, ArdisMaterialMapping>,
     edgeMap: Map<string, ArdisEdgeMapping>,
+    partSequence: number,
   ): void {
     const material = materialMap.get(part.materialCode)!;
     const edgeCodes = [
@@ -92,11 +93,11 @@ export class XmlGeneratorService {
       code.trim() ? edgeMap.get(code)?.ardisEdgeName ?? '' : '',
     );
 
-    const partNode = partList.ele('Part');
+    const partNode = partList.ele('Part', { Key: String(partSequence) });
     this.appendTextElement(partNode, 'PartRef', part.partReference);
     this.appendTextElement(partNode, 'PartL', part.lengthMm);
     this.appendTextElement(partNode, 'PartW', part.widthMm);
-    this.appendTextElement(partNode, 'PartD', '');
+    this.appendTextElement(partNode, 'PartD', material.sheetGrain);
     this.appendTextElement(partNode, 'PartQty', part.quantity);
     this.appendTextElement(partNode, 'PartCost', 0.0);
     this.appendTextElement(partNode, 'PartMat', material.ardisMaterialName);
@@ -109,14 +110,14 @@ export class XmlGeneratorService {
     this.appendTextElement(partNode, 'PartRemark', '');
     this.appendTextElement(partNode, 'PartRemark2', '');
     this.appendTextElement(partNode, 'PartDraw', '');
-    this.appendTextElement(partNode, 'PartExt01', '');
+    this.appendTextElement(partNode, 'PartExt01', payload.projectNumber);
     this.appendTextElement(partNode, 'PartExt02', '');
     this.appendTextElement(partNode, 'PartExt03', '');
     this.appendTextElement(partNode, 'PartExt04', '');
     this.appendTextElement(partNode, 'PartExt05', '');
     this.appendTextElement(partNode, 'PartExt06', '');
     this.appendTextElement(partNode, 'PartExt07', '');
-    this.appendTextElement(partNode, 'PartExt08', '');
+    this.appendTextElement(partNode, 'PartExt08', payload.customerAccount ?? '');
     this.appendTextElement(partNode, 'PartExt09', '');
     this.appendTextElement(
       partNode,
@@ -273,9 +274,14 @@ export class XmlGeneratorService {
 
   private buildEdgeSelectionSummary(edgeNames: string[]): string {
     return edgeNames
-      .map((edgeName, index) => (edgeName ? `E${index + 1}:${edgeName}` : ''))
-      .filter((value) => value.length > 0)
-      .join(';');
+      .filter((edgeName) => edgeName.length > 0)
+      .join('');
+  }
+
+  private buildPartFileId(payload: GenerateXmlDto): string {
+    const idPrefix =
+      payload.customerName?.trim() || payload.projectReference?.trim() || payload.projectNumber;
+    return `${idPrefix}_${payload.projectNumber}`;
   }
 
   private appendTextElement(parent: XMLBuilder, name: string, value: string | number): void {

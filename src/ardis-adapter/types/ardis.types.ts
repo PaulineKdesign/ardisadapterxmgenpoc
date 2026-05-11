@@ -8,6 +8,7 @@ export interface ArdisMaterialMapping {
   thicknessMm: number;
   sheetLengthMm: number;
   sheetWidthMm: number;
+  sheetGrain: number;
   sheetNoLimit: number;
   sheetPrice: number;
   sheetQty: number;
