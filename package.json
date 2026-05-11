@@ -9,6 +9,7 @@
     "start:dev": "nest start --watch"
   },
   "dependencies": {
+    "@azure/storage-file-share": "^12.28.0",
     "@vercel/blob": "^1.1.1",
     "@nestjs/common": "^10.4.8",
     "@nestjs/core": "^10.4.8",

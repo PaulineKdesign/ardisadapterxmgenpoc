@@ -46,17 +46,21 @@ export interface GeneratedXmlResponse {
   generatedPath: string;
   deliveryMode?: OutputMode;
   fileSystemPath?: string;
+  azureFilePath?: string;
+  azureFileUrl?: string;
   blobUrl?: string;
   downloadUrl?: string;
   logPath?: string;
   logFileSystemPath?: string;
+  azureLogFilePath?: string;
+  azureLogFileUrl?: string;
   logBlobUrl?: string;
 }
 
-export type OutputMode = 'filesystem' | 'blob' | 'both' | 'auto';
+export type OutputMode = 'filesystem' | 'blob' | 'azure-files' | 'both' | 'auto';
 
 export interface StoredFileResult {
-  mode: 'filesystem' | 'blob';
+  mode: 'filesystem' | 'blob' | 'azure-files';
   pathname: string;
   absolutePath?: string;
   url?: string;

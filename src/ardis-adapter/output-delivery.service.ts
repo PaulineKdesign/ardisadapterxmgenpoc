@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AzureFilesOutputService } from './azure-files-output.service';
 import { BlobOutputService } from './blob-output.service';
 import { FilesystemOutputService } from './filesystem-output.service';
 import { DeliveryResult, OutputMode } from './types/ardis.types';
@@ -7,6 +8,7 @@ import { DeliveryResult, OutputMode } from './types/ardis.types';
 export class OutputDeliveryService {
   constructor(
     private readonly filesystemOutputService: FilesystemOutputService,
+    private readonly azureFilesOutputService: AzureFilesOutputService,
     private readonly blobOutputService: BlobOutputService,
   ) {}
 
@@ -22,16 +24,25 @@ export class OutputDeliveryService {
         const primary = await this.blobOutputService.saveGeneratedXml(fileName, xml);
         return { primary, secondary: [] };
       }
+      case 'azure-files': {
+        const primary = await this.azureFilesOutputService.saveGeneratedXml(fileName, xml);
+        return { primary, secondary: [] };
+      }
       case 'both': {
-        const filesystemResult = await this.filesystemOutputService.saveGeneratedXml(
+        const azureFilesResult = await this.azureFilesOutputService.saveGeneratedXml(
           fileName,
           xml,
         );
         const blobResult = await this.blobOutputService.saveGeneratedXml(fileName, xml);
-        return { primary: filesystemResult, secondary: [blobResult] };
+        return { primary: azureFilesResult, secondary: [blobResult] };
       }
       case 'auto':
       default: {
+        if (this.azureFilesOutputService.isConfigured()) {
+          const primary = await this.azureFilesOutputService.saveGeneratedXml(fileName, xml);
+          return { primary, secondary: [] };
+        }
+
         if (this.blobOutputService.isConfigured()) {
           const primary = await this.blobOutputService.saveGeneratedXml(fileName, xml);
           return { primary, secondary: [] };
@@ -55,16 +66,25 @@ export class OutputDeliveryService {
         const primary = await this.blobOutputService.saveLog(projectNumber, payload);
         return { primary, secondary: [] };
       }
+      case 'azure-files': {
+        const primary = await this.azureFilesOutputService.saveLog(projectNumber, payload);
+        return { primary, secondary: [] };
+      }
       case 'both': {
-        const filesystemResult = await this.filesystemOutputService.saveLog(
+        const azureFilesResult = await this.azureFilesOutputService.saveLog(
           projectNumber,
           payload,
         );
         const blobResult = await this.blobOutputService.saveLog(projectNumber, payload);
-        return { primary: filesystemResult, secondary: [blobResult] };
+        return { primary: azureFilesResult, secondary: [blobResult] };
       }
       case 'auto':
       default: {
+        if (this.azureFilesOutputService.isConfigured()) {
+          const primary = await this.azureFilesOutputService.saveLog(projectNumber, payload);
+          return { primary, secondary: [] };
+        }
+
         if (this.blobOutputService.isConfigured()) {
           const primary = await this.blobOutputService.saveLog(projectNumber, payload);
           return { primary, secondary: [] };
@@ -82,6 +102,7 @@ export class OutputDeliveryService {
     if (
       configuredMode === 'filesystem' ||
       configuredMode === 'blob' ||
+      configuredMode === 'azure-files' ||
       configuredMode === 'both' ||
       configuredMode === 'auto'
     ) {

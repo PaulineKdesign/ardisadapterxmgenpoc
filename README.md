@@ -117,10 +117,12 @@ The adapter supports pluggable output delivery so it can work for local testing,
   Writes XML and logs to the filesystem only
 - `ARDIS_OUTPUT_MODE=blob`
   Uploads XML and logs to Vercel Blob only
+- `ARDIS_OUTPUT_MODE=azure-files`
+  Writes XML and logs directly to an Azure file share
 - `ARDIS_OUTPUT_MODE=both`
-  Writes to filesystem and Vercel Blob in the same request
+  Writes to Azure Files and Vercel Blob in the same request
 - `ARDIS_OUTPUT_MODE=auto`
-  Uses Blob when `BLOB_READ_WRITE_TOKEN` is configured, otherwise filesystem
+  Uses Azure Files when configured, otherwise Blob, otherwise filesystem
 
 Useful filesystem paths:
 
@@ -130,6 +132,17 @@ Useful filesystem paths:
   Target folder for generated JSON logs
 
 Filesystem writes use a temp-file-then-rename flow so Ardis does not pick up partially written XML files.
+
+Useful Azure Files settings:
+
+- `AZURE_STORAGE_CONNECTION_STRING`
+  Azure storage connection string for the file share
+- `AZURE_FILE_SHARE_NAME`
+  Azure file share name watched by Ardis
+- `AZURE_FILE_DIRECTORY`
+  Optional XML output folder inside the share
+- `AZURE_LOG_FILE_DIRECTORY`
+  Optional log folder inside the share; defaults to `AZURE_FILE_DIRECTORY`
 
 ## Validation Rules
 

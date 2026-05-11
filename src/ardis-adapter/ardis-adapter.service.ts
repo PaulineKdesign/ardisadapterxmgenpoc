@@ -81,6 +81,13 @@ export class ArdisAdapterService {
       return;
     }
 
+    if (file.mode === 'azure-files') {
+      response.azureFilePath = file.pathname;
+      response.azureFileUrl = file.url;
+      response.generatedPath = file.pathname;
+      return;
+    }
+
     response.blobUrl = file.url;
     response.downloadUrl = file.downloadUrl;
     if (!response.fileSystemPath) {
@@ -94,6 +101,13 @@ export class ArdisAdapterService {
   ): void {
     if (file.mode === 'filesystem') {
       response.logFileSystemPath = file.absolutePath ?? file.pathname;
+      response.logPath = file.pathname;
+      return;
+    }
+
+    if (file.mode === 'azure-files') {
+      response.azureLogFilePath = file.pathname;
+      response.azureLogFileUrl = file.url;
       response.logPath = file.pathname;
       return;
     }
