@@ -86,6 +86,7 @@ See:
 - [examples/generate-xml-request-two-parts.json](examples/generate-xml-request-two-parts.json)
 - [examples/generate-xml-request-no-edges.json](examples/generate-xml-request-no-edges.json)
 - [examples/generate-xml-request-two-materials.json](examples/generate-xml-request-two-materials.json)
+- [examples/generate-xml-request-many-parts-mixed.json](examples/generate-xml-request-many-parts-mixed.json)
 
 ## Expected Response
 
@@ -107,6 +108,28 @@ See:
 - Blob XML output: `generated/Project_<projectNumber>.xml`
 - Blob log output: `logs/<projectNumber>.json`
 - Local filesystem fallback is used only when `BLOB_READ_WRITE_TOKEN` is not configured
+
+## Output Modes
+
+The adapter supports pluggable output delivery so it can work for local testing, Vercel Blob, or Ardis-style file drop.
+
+- `ARDIS_OUTPUT_MODE=filesystem`
+  Writes XML and logs to the filesystem only
+- `ARDIS_OUTPUT_MODE=blob`
+  Uploads XML and logs to Vercel Blob only
+- `ARDIS_OUTPUT_MODE=both`
+  Writes to filesystem and Vercel Blob in the same request
+- `ARDIS_OUTPUT_MODE=auto`
+  Uses Blob when `BLOB_READ_WRITE_TOKEN` is configured, otherwise filesystem
+
+Useful filesystem paths:
+
+- `ARDIS_FILE_DROP_PATH`
+  Target folder for generated XML files, including shared/network paths
+- `ARDIS_LOG_PATH`
+  Target folder for generated JSON logs
+
+Filesystem writes use a temp-file-then-rename flow so Ardis does not pick up partially written XML files.
 
 ## Validation Rules
 

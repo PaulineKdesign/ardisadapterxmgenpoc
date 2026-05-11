@@ -44,8 +44,26 @@ export interface GeneratedXmlResponse {
   projectNumber: string;
   fileName: string;
   generatedPath: string;
+  deliveryMode?: OutputMode;
+  fileSystemPath?: string;
   blobUrl?: string;
   downloadUrl?: string;
   logPath?: string;
+  logFileSystemPath?: string;
   logBlobUrl?: string;
+}
+
+export type OutputMode = 'filesystem' | 'blob' | 'both' | 'auto';
+
+export interface StoredFileResult {
+  mode: 'filesystem' | 'blob';
+  pathname: string;
+  absolutePath?: string;
+  url?: string;
+  downloadUrl?: string;
+}
+
+export interface DeliveryResult {
+  primary: StoredFileResult;
+  secondary: StoredFileResult[];
 }

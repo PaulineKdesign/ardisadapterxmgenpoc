@@ -1,0 +1,60 @@
+{
+  "projectNumber": "AT-POC-006",
+  "customerAccount": "C004500",
+  "customerName": "Samuel Karanja",
+  "customerEmail": "samuel@email.com",
+  "deliveryDate": "2026-05-16",
+  "orderDate": "2026-05-11",
+  "deliveryMethod": "Deliver Parts",
+  "projectReference": "mixed materials and edges test",
+  "parts": [
+    {
+      "partReference": "P501",
+      "materialCode": "Z1000798",
+      "lengthMm": 800,
+      "widthMm": 450,
+      "quantity": 2,
+      "edge1": "Z1002150",
+      "edge2": "Z1002150",
+      "edge3": "",
+      "edge4": "",
+      "machiningRaw": "|;|;|"
+    },
+    {
+      "partReference": "P502",
+      "materialCode": "Z1000798",
+      "lengthMm": 1200,
+      "widthMm": 300,
+      "quantity": 1,
+      "edge1": "Z1002153",
+      "edge2": "",
+      "edge3": "Z1002153",
+      "edge4": "",
+      "machiningRaw": "|drill|groove|"
+    },
+    {
+      "partReference": "P503",
+      "materialCode": "Z1000823",
+      "lengthMm": 600,
+      "widthMm": 600,
+      "quantity": 3,
+      "edge1": "Z1002139",
+      "edge2": "Z1002139",
+      "edge3": "Z1002139",
+      "edge4": "Z1002139",
+      "machiningRaw": "|route|bore|"
+    },
+    {
+      "partReference": "P504",
+      "materialCode": "Z1000823",
+      "lengthMm": 900,
+      "widthMm": 500,
+      "quantity": 2,
+      "edge1": "",
+      "edge2": "Z1002150",
+      "edge3": "",
+      "edge4": "Z1002153",
+      "machiningRaw": ""
+    }
+  ]
+}

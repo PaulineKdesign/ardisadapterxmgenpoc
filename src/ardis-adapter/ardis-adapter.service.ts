@@ -1,13 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { GenerateXmlDto } from './dto/generate-xml.dto';
-import { FileStorageService } from './file-storage.service';
 import materials from '../mappings/materials.json';
 import edges from '../mappings/edges.json';
+import { OutputDeliveryService } from './output-delivery.service';
 import { XmlGeneratorService } from './xml-generator.service';
 import {
   ArdisEdgeMapping,
   ArdisMaterialMapping,
   GeneratedXmlResponse,
+  StoredFileResult,
 } from './types/ardis.types';
 
 @Injectable()
@@ -25,7 +26,7 @@ export class ArdisAdapterService {
 
   constructor(
     private readonly xmlGeneratorService: XmlGeneratorService,
-    private readonly fileStorageService: FileStorageService,
+    private readonly outputDeliveryService: OutputDeliveryService,
   ) {}
 
   async generateXml(payload: GenerateXmlDto): Promise<GeneratedXmlResponse> {
@@ -45,27 +46,62 @@ export class ArdisAdapterService {
     );
 
     const fileName = `Project_${payload.projectNumber}.xml`;
-    const generatedFile = await this.fileStorageService.saveGeneratedXml(fileName, xml);
+    const generatedFile = await this.outputDeliveryService.saveGeneratedXml(fileName, xml);
 
     const response: GeneratedXmlResponse = {
       success: true,
       projectNumber: payload.projectNumber,
       fileName,
-      generatedPath: generatedFile.pathname,
-      blobUrl: generatedFile.url,
-      downloadUrl: generatedFile.downloadUrl,
+      deliveryMode: process.env.ARDIS_OUTPUT_MODE?.toLowerCase() as GeneratedXmlResponse['deliveryMode'],
+      generatedPath: generatedFile.primary.pathname,
     };
+    this.applyStoredFileResultToResponse(response, generatedFile.primary);
+    generatedFile.secondary.forEach((file) => this.applyStoredFileResultToResponse(response, file));
 
-    const logFile = await this.fileStorageService.saveLog(payload.projectNumber, {
+    const logFile = await this.outputDeliveryService.saveLog(payload.projectNumber, {
       createdAt: new Date().toISOString(),
       request: payload,
       response,
     });
 
-    response.logPath = logFile.pathname;
-    response.logBlobUrl = logFile.url;
+    response.logPath = logFile.primary.pathname;
+    this.applyLogStoredFileResultToResponse(response, logFile.primary);
+    logFile.secondary.forEach((file) => this.applyLogStoredFileResultToResponse(response, file));
 
     return response;
+  }
+
+  private applyStoredFileResultToResponse(
+    response: GeneratedXmlResponse,
+    file: StoredFileResult,
+  ): void {
+    if (file.mode === 'filesystem') {
+      response.fileSystemPath = file.absolutePath ?? file.pathname;
+      response.generatedPath = file.pathname;
+      return;
+    }
+
+    response.blobUrl = file.url;
+    response.downloadUrl = file.downloadUrl;
+    if (!response.fileSystemPath) {
+      response.generatedPath = file.pathname;
+    }
+  }
+
+  private applyLogStoredFileResultToResponse(
+    response: GeneratedXmlResponse,
+    file: StoredFileResult,
+  ): void {
+    if (file.mode === 'filesystem') {
+      response.logFileSystemPath = file.absolutePath ?? file.pathname;
+      response.logPath = file.pathname;
+      return;
+    }
+
+    response.logBlobUrl = file.url;
+    if (!response.logFileSystemPath) {
+      response.logPath = file.pathname;
+    }
   }
 
   private validateMappings(payload: GenerateXmlDto): string[] {
