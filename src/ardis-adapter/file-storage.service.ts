@@ -3,6 +3,7 @@ import { put } from '@vercel/blob';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { v4 as uuidv4 } from 'uuid';
 
 interface StoredFileResult {
   pathname: string;
@@ -21,12 +22,11 @@ export class FileStorageService {
 
   async saveGeneratedXml(fileName: string, xml: string): Promise<StoredFileResult> {
     if (this.blobToken) {
-      const pathname = `generated/${fileName}`;
+      const pathname = this.buildBlobPath('generated', fileName);
       const blob = await put(pathname, xml, {
         access: 'public',
         contentType: 'application/xml',
         addRandomSuffix: false,
-        allowOverwrite: true,
         token: this.blobToken,
       });
 
@@ -52,12 +52,11 @@ export class FileStorageService {
     const fileContents = JSON.stringify(payload, null, 2);
 
     if (this.blobToken) {
-      const pathname = `logs/${fileName}`;
+      const pathname = this.buildBlobPath('logs', fileName);
       const blob = await put(pathname, fileContents, {
         access: 'public',
         contentType: 'application/json',
         addRandomSuffix: false,
-        allowOverwrite: true,
         token: this.blobToken,
       });
 
@@ -80,5 +79,10 @@ export class FileStorageService {
 
   private async ensureDirectory(filePath: string): Promise<void> {
     await mkdir(dirname(filePath), { recursive: true });
+  }
+
+  private buildBlobPath(folder: 'generated' | 'logs', fileName: string): string {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    return `${folder}/${timestamp}-${uuidv4()}-${fileName}`;
   }
 }
