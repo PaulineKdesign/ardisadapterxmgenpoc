@@ -22,5 +22,29 @@
     "restMinLength": "630.00",
     "restMinWidth": "130.00",
     "oneLevelStrips": "0.00"
+  },
+  {
+    "materialCode": "Z1000823",
+    "ardisMaterialName": "18 PB Super White",
+    "description": "18 PB Super White",
+    "rawMaterialCode": "Z1000823",
+    "finishedGoodCode": "Z1002239",
+    "offcutCode": "Z1003481",
+    "thicknessMm": 18,
+    "sheetLengthMm": 3640,
+    "sheetWidthMm": 1820,
+    "sheetNoLimit": 1,
+    "sheetPrice": 2950,
+    "sheetQty": 100,
+    "sheetD": 0,
+    "sheetRemark": 0,
+    "sheetMach": "",
+    "trimMinUpper": "10.00",
+    "trimMinRight": "10.00",
+    "trimMinBottom": "10.00",
+    "trimMinLeft": "10.00",
+    "restMinLength": "630.00",
+    "restMinWidth": "130.00",
+    "oneLevelStrips": "0.00"
   }
 ]

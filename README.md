@@ -85,6 +85,7 @@ See:
 - [examples/generate-xml-request-edge-all-sides.json](examples/generate-xml-request-edge-all-sides.json)
 - [examples/generate-xml-request-two-parts.json](examples/generate-xml-request-two-parts.json)
 - [examples/generate-xml-request-no-edges.json](examples/generate-xml-request-no-edges.json)
+- [examples/generate-xml-request-two-materials.json](examples/generate-xml-request-two-materials.json)
 
 ## Expected Response
 
