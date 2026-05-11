@@ -12,5 +12,33 @@
     "edgeCorrection": "",
     "edgeSupplier": 60,
     "edgeTrim": ""
+  },
+  {
+    "edgeCode": "Z1002153",
+    "ardisEdgeName": "0.8 Tunari Edging",
+    "description": "0.8 Tunari Edging",
+    "thicknessMm": 0.8,
+    "minHeightMm": 15,
+    "maxHeightMm": 20,
+    "minLength": 0,
+    "maxLength": 0,
+    "edgeValue": 0,
+    "edgeCorrection": "",
+    "edgeSupplier": 60,
+    "edgeTrim": ""
+  },
+  {
+    "edgeCode": "Z1002139",
+    "ardisEdgeName": "0.8 Stonetown Edging",
+    "description": "0.8 Stonetown Edging",
+    "thicknessMm": 0.8,
+    "minHeightMm": 15,
+    "maxHeightMm": 20,
+    "minLength": 0,
+    "maxLength": 0,
+    "edgeValue": 0,
+    "edgeCorrection": "",
+    "edgeSupplier": 60,
+    "edgeTrim": ""
   }
 ]

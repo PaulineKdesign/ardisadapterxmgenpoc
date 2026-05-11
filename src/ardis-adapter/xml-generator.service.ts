@@ -55,10 +55,15 @@ export class XmlGeneratorService {
 
     // EdgeCollection: one edge definition per unique non-empty edge code.
     const edgeCollection = doc.ele('EdgeCollection');
+    const edgeFile = edgeCollection.ele('EdgeFile', {
+      ID: this.buildEdgeFileId(payload),
+      Version: '16.03.31',
+    });
+    const edgeList = edgeFile.ele('EdgeList');
     const uniqueEdgeCodes = [...new Set(this.collectEdgeCodes(payload.parts))];
-    for (const edgeCode of uniqueEdgeCodes) {
+    for (const [index, edgeCode] of uniqueEdgeCodes.entries()) {
       const edge = edgeMap.get(edgeCode)!;
-      this.appendEdge(edgeCollection, edge);
+      this.appendEdge(edgeList, edge, index + 1);
     }
 
     // ProjectSettings: static optimizer settings with the project number in remark 3.
@@ -231,8 +236,8 @@ export class XmlGeneratorService {
     this.appendTextElement(machineProperties, 'MachDescr', 'Selco');
   }
 
-  private appendEdge(edgeCollection: XMLBuilder, edge: ArdisEdgeMapping): void {
-    const edgeNode = edgeCollection.ele('Edge');
+  private appendEdge(edgeList: XMLBuilder, edge: ArdisEdgeMapping, edgeSequence: number): void {
+    const edgeNode = edgeList.ele('Edge', { Key: String(edgeSequence) });
     this.appendTextElement(edgeNode, 'EdgeID', edge.ardisEdgeName);
     this.appendTextElement(edgeNode, 'EdgeDescr', edge.description);
     this.appendTextElement(edgeNode, 'EdgeThick', edge.thicknessMm);
@@ -282,6 +287,10 @@ export class XmlGeneratorService {
     const idPrefix =
       payload.customerName?.trim() || payload.projectReference?.trim() || payload.projectNumber;
     return `${idPrefix}_${payload.projectNumber}`;
+  }
+
+  private buildEdgeFileId(payload: GenerateXmlDto): string {
+    return payload.projectReference?.trim() || payload.projectNumber;
   }
 
   private appendTextElement(parent: XMLBuilder, name: string, value: string | number): void {
