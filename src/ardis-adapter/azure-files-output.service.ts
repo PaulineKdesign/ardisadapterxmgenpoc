@@ -43,16 +43,12 @@ export class AzureFilesOutputService {
       shareClient.rootDirectoryClient,
       baseDirectory,
     );
-
-    const tempFileName = `${fileName}.uploading`;
-    const tempFileClient = directoryClient.getFileClient(tempFileName);
+    const finalFileClient = directoryClient.getFileClient(fileName);
     const contentLength = Buffer.byteLength(content, 'utf-8');
-    await tempFileClient.create(contentLength);
-    await tempFileClient.uploadRange(content, 0, contentLength);
+    await finalFileClient.create(contentLength);
+    await finalFileClient.uploadRange(content, 0, contentLength);
 
     const destinationPath = this.combineDirectoryPath(baseDirectory, fileName);
-    const renameResult = await tempFileClient.rename(destinationPath);
-    const finalFileClient = renameResult.destinationFileClient;
 
     return {
       mode: 'azure-files',
