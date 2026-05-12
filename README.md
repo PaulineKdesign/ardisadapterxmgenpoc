@@ -22,7 +22,10 @@ src/
     ardis-adapter.controller.ts
     ardis-adapter.module.ts
     ardis-adapter.service.ts
-    file-storage.service.ts
+    filesystem-output.service.ts
+    blob-output.service.ts
+    azure-files-output.service.ts
+    output-delivery.service.ts
     xml-generator.service.ts
     dto/
       generate-xml.dto.ts
